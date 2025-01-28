@@ -2,7 +2,7 @@ import openai
 import streamlit as st
 
 # Set your OpenAI API Key
-openai.api_key = "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"
+openai.api_key = st.secrets["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"]
 
 # Step 1: System Prompt for Context
 SYSTEM_PROMPT = """

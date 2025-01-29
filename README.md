@@ -1,4 +1,4 @@
-# 🌍 Multi-Step Travel Itinerary Generator ✈️
+# 🌍 Travel Itinerary Generator ✈️
 
 ## Overview
 This project is a **Multi-Step Travel Itinerary Generator** built using **Google Gemini API** and **Streamlit**. It allows users to generate a personalized, structured travel itinerary based on their preferences. The system follows a guided interaction process to refine user input and provide detailed day-by-day travel plans.

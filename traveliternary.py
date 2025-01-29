@@ -1,8 +1,8 @@
-import openai
+import google.generativeai as genai
 import streamlit as st
 
-# Set your OpenAI API Key
-openai.api_key = "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"
+# Set your Google Gemini API Key
+genai.configure(api_key="AIzaSyDgSefNMUS4TZqeoylWhEQrhi4vp9Q8X8M")
 
 # Step 1: System Prompt for Context
 SYSTEM_PROMPT = """
@@ -19,7 +19,7 @@ Include:
 
 # Step 2: Function to Refine Inputs
 def refine_inputs(user_responses):
-    questions = """
+    questions_prompt = f"""
     Based on the user's inputs, generate clarifying questions for:
     - Location
     - Duration
@@ -27,16 +27,14 @@ def refine_inputs(user_responses):
     - Interests (e.g., adventure, relaxation, food, culture)
     - Accommodation preferences (luxury, budget, etc.)
     - Any specific requirements (e.g., dietary restrictions, accessibility).
+
+    User Inputs:
+    {user_responses}
     """
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_responses},
-            {"role": "assistant", "content": questions},
-        ],
-    )
-    return response["choices"][0]["message"]["content"]
+    model = genai.GenerativeModel("gemini-pro")
+    response = model.generate_content(questions_prompt)
+    return response.text
+
 
 # Step 3: Function to Generate Itinerary
 def generate_itinerary(location, duration, budget, interests, accommodation, additional_notes):
@@ -54,14 +52,9 @@ def generate_itinerary(location, duration, budget, interests, accommodation, add
     - Dining recommendations.
     - Suggestions for accommodation.
     """
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": itinerary_prompt},
-        ],
-    )
-    return response["choices"][0]["message"]["content"]
+    model = genai.GenerativeModel("gemini-pro")
+    response = model.generate_content(itinerary_prompt)
+    return response.text
 
 # Step 4: Streamlit UI for User Interaction
 st.title("🌍 Travel Itinerary Generator ✈️")
